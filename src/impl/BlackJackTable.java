@@ -1,0 +1,66 @@
+package impl;
+import api.Table;
+
+public class BlackJackTable extends Table{
+
+	public BlackJackTable(int numOfPlayers){
+	}
+     /*
+     * A game is over when there are no players, or no players with
+     * money to bet
+     */
+	public boolean isGameOver(){
+
+		return (players.isEmpty()) ? true : false;  //check players bets
+	}
+
+    /*
+     * A string representation of the table
+     */
+    public String toString(){
+    	String s = " ";
+    	return s;
+
+    }
+
+    /*
+     * Collect cards from all players at the table. Note that in Black
+     * Jack, that also means the dealer themself!
+     */
+    protected void collectCards(){
+
+    }
+
+    /*
+     * Deal cards to all players at the table. Note that in Black
+     * Jack, that also means the dealer themself!
+     */
+    protected void dealTable(){
+
+    }
+    
+    /*
+     * Collect bets from all players at the table
+     */
+    protected void collectBets(){
+
+    }
+
+    /*
+     * Give each player a turn. Note that in Black Jack, the dealer
+     * should have a turn as well!
+     */
+    protected void playerTurns(){
+
+    }
+
+    /*
+     * Evaluate each players hand with respect the rules of the game,
+     * and to the dealer. If a player has a winning hand, they should
+     * be paid based on their respective information in the wager
+     * table.
+     */
+    protected void playerEvaluations(){
+
+    }
+}
