@@ -21,5 +21,6 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
      * Shuffle the cards.
      */
     public void shuffle(){
+        // I'll add stuff later
     }
 }
