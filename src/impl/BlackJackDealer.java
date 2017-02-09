@@ -7,10 +7,10 @@ import impl.BlackJackPlayer;
 public class BlackJackDealer extends BlackJackPlayer implements Dealer{
 
 
-	public void dealCard(Player player){
+	public void dealCard(Player player) {
 	}
 
-    public void collectCards(Player player){
+    public void collectCards(Player player) {
     }
 
     public Hand getHand(){

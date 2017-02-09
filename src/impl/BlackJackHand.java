@@ -3,7 +3,7 @@ import api.Hand;
 
 public class BlackJackHand extends Hand{
 
-	public int compareTo(Hand other){
+	public int compareTo(Hand other) {
 		int value = this.valueOf();
 
         return (value == 0) ? value : other.valueOf();
