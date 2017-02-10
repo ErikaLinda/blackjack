@@ -1,10 +1,17 @@
 package impl;
 import api.Table;
+import api.Dealer;
+import impl.BlackJackDealer;
 
 public class BlackJackTable extends Table{
 
+   
+
 	public BlackJackTable(int numOfPlayers){
+        Dealer dealer = new BlackJackDealer();
+        dealer.shuffle();
 	}
+   
      /*
      * A game is over when there are no players, or no players with
      * money to bet
