@@ -4,16 +4,29 @@ import api.Hand;
 import api.Card;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Scanner;
 
 
 public class BlackJackPlayer implements Player{
-	Hand playersHand = new BlackJackHand();
-	String name = new String(); //get input from command line
+	private Hand playersHand = new BlackJackHand();
+    private String name;
 
+    
+
+    public BlackJackPlayer(){
+        // prompt user to enter their name
+        System.out.println("Enter your name: ");
+        Scanner scanner = new Scanner(System.in);
+        name = scanner.next();
+        System.out.println(String.format("%s, you are in the game", name ));
+    }
+    
+
+	
 	//value of hand at which player stops requesting cards
-	int threshold = ThreadLocalRandom.current().nextInt(13, 18);
+	private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
 	//initial available money
-	double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
+	private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
 
 	public int compareTo(Player other){
 		if (this.getMoney() > other.getMoney()){

@@ -1,15 +1,26 @@
 package impl;
 import api.Table;
 import api.Dealer;
+import api.Player;
 import impl.BlackJackDealer;
 
 public class BlackJackTable extends Table{
 
-   
 
 	public BlackJackTable(int numOfPlayers){
+
         Dealer dealer = new BlackJackDealer();
         dealer.shuffle();
+        
+        System.out.printf("Number of players %d%n", numOfPlayers);
+
+        for( int i = 0; i < numOfPlayers; i++){
+            System.out.printf("i: %d%n", i);
+            Player player = new BlackJackPlayer();
+            players.add ( player );
+        }
+
+        
 	}
    
      /*
@@ -19,6 +30,7 @@ public class BlackJackTable extends Table{
 	public boolean isGameOver(){
 
 		return (players.isEmpty()) ? true : false;  //check players bets
+        // return false;
 	}
 
     /*
