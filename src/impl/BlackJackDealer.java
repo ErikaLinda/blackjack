@@ -15,8 +15,6 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
     
 
     //initialize the deck  
-    // private static Card[] deck = new Card[52];
-
     private static List<Card> deck = new ArrayList<>();
 
     public BlackJackDealer() {
@@ -24,7 +22,6 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
         for (Card.Suit suit : Card.Suit.values()) {
             for (Card.Value value : Card.Value.values()) {
 
-                // deck[i++] = new Card(value, suit);
                 // System.out.printf("Value: %s  suit: %s%n", value, suit);
                 Card tmp = new Card(value, suit);
                 deck.add(tmp);
@@ -33,13 +30,9 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
 
     }
 
-    //initialize the hand
-    private static Hand dealersHand = new BlackJackHand();
 
     
 	public void dealCard(Player player) {
-        // Card tmp = deck.remove(1);
-        // Card tmp = deck[1];
         Iterator<Card> it = deck.iterator();
         player.receive(it.next());
         it.remove();
@@ -49,7 +42,7 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
     }
 
     public Hand getHand(){
-     	return dealersHand;
+     	return this.getHand();
     }
 
     /*

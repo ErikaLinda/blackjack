@@ -4,6 +4,8 @@ import api.Dealer;
 import api.Player;
 import impl.BlackJackDealer;
 
+import java.util.Iterator;
+
 public class BlackJackTable extends Table{
 
 
@@ -55,6 +57,15 @@ public class BlackJackTable extends Table{
      * Jack, that also means the dealer themself!
      */
     protected void dealTable(){
+        Iterator<Player> it = players.iterator();
+        while(it.hasNext()){
+            Player tmp = it.next();
+            dealer.dealCard(tmp);
+            dealer.dealCard(tmp);
+        }
+
+        dealer.dealCard((Player)dealer);
+        dealer.dealCard((Player)dealer);
 
     }
     
