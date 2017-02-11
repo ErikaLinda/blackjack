@@ -2,6 +2,7 @@ package impl;
 import api.Table;
 import api.Dealer;
 import api.Player;
+import api.Hand;
 import impl.BlackJackDealer;
 
 import java.util.*;
@@ -9,16 +10,19 @@ import java.util.*;
 // import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BlackJackTable extends Table{
-    private double bank = 0;
+    private Map<Player, Double> bank = new HashMap<>();
+    
 
  
 	public BlackJackTable(int numOfPlayers){
-        this.dealer = new BlackJackDealer();
-        this.players =  new ArrayList<>();
-
         
+        this.players =  new ArrayList<>();
+        this.dealer = new BlackJackDealer();
+
         System.out.printf("Number of players %d%n", numOfPlayers);
 
         for( int i = 0; i < numOfPlayers; i++){
@@ -63,10 +67,15 @@ public class BlackJackTable extends Table{
      * Jack, that also means the dealer themself!
      */
     protected void collectCards(){
-        Iterator<Player> it = players.iterator();
-        while(it.hasNext()){
-            dealer.collectCards(it.next());
-        }
+        for (Player player : players) {
+            dealer.collectCards(player);
+            // System.out.println(s);
+        }  
+
+        // Iterator<Player> it = players.iterator();
+        // while(it.hasNext()){
+        //     dealer.collectCards(it.next());
+        // }
 
         dealer.collectCards((Player)dealer);
 
@@ -79,12 +88,16 @@ public class BlackJackTable extends Table{
      */
     protected void dealTable(){
         //deal two cards to each player
-        Iterator<Player> it = players.iterator();
-        while(it.hasNext()){
-            Player tmp = it.next();
-            dealer.dealCard(tmp);  
-            dealer.dealCard(tmp);
+        for(Player player : players){
+            dealer.dealCard(player);  
+            dealer.dealCard(player);
         }
+        // Iterator<Player> it = players.iterator();
+        // while(it.hasNext()){
+        //     Player tmp = it.next();
+        //     dealer.dealCard(tmp);  
+        //     dealer.dealCard(tmp);
+        // }
 
         //deal two cards to dealer
         dealer.dealCard((Player)dealer);
@@ -98,12 +111,20 @@ public class BlackJackTable extends Table{
      * Collect bets from all players at the table
      */
     protected void collectBets(){
-        Iterator<Player> it = players.iterator();
-        while(it.hasNext()){
-            Player tmp = it.next();
-            bank += tmp.wager();
+        for(Player player : players){
+            bank.put(player, player.wager());
+            double tmp = bank.get(player);
+            System.out.printf("Current wager for a player: %f.%n", tmp);
         }
-        System.out.printf("Bets have been collected. Bank: %f%n.", bank);
+        // System.out.println("Size of the map: "+ bank.size());
+        
+        // Iterator<Player> it = players.iterator();
+        // while(it.hasNext()){
+        //     Player player = it.next();
+        //     double tmp =0;//need to take it out
+        //     tmp+= player.wager();
+        // }
+        // System.out.printf("Bets have been collected. Bank: %f.%n", bank);
     }
 
     /*
@@ -112,17 +133,23 @@ public class BlackJackTable extends Table{
      */
     protected void playerTurns(){
         // players take turns
-        Iterator<Player> it = players.iterator();
-        while(it.hasNext()){
-            Player player = it.next();
-            if(player.requestCard()){
+        for (Player player : players){
+            while(player.requestCard()){
                 dealer.dealCard(player);
-                System.out.println("Someone added extra card.");
+                System.out.println("A player added extra card.");
             }
         }
+        // Iterator<Player> it = players.iterator();
+        // while(it.hasNext()){
+        //     Player player = it.next();
+        //     if(player.requestCard()){
+                
+        //     }
+        // }
         // dealer takes turn
-        if( ((Player)dealer).requestCard() ){
-            dealer.dealCard((Player)dealer);
+        while( ((Player)dealer).requestCard() ){
+            dealer.dealCard((Player)dealer); 
+            System.out.println("The dealer added extra card.");
         }
         System.out.println("Players took turns.");
 
@@ -135,6 +162,51 @@ public class BlackJackTable extends Table{
      * table.
      */
     protected void playerEvaluations(){
+        // for(Player p : players){
+        //     System.out.printf("NoSort Player: %s, hand: %d.%n", p.getName(), p.getHand().valueOf());
+        // }
+
+        //check case for multiple winners
+
+        //sort players by their hands in descending order
+        Collections.sort(players);
+        
+        for(Player p : players){
+            System.out.printf("Player: %s, hand: %d.%n", p.getName(), p.getHand().valueOf());
+        }
+
+        Hand dealersHand = dealer.getHand();
+        System.out.printf("Dealers final hand: %d.%n", dealersHand.valueOf());
+
+        for(Player p : players){
+            Hand h = p.getHand();
+            if(h.isValid()){
+                System.out.printf("Player: %s bet: %f, recived: %f.%n", p.getName(), bank.get(p), this.wonAmount(h, dealersHand));
+                p.payOut(this.wonAmount(h, dealersHand));
+                return;
+            }
+        }
+        return;
+    }
+
+    private double wonAmount(Hand player, Hand dealer){
+        double gain = 0;
+
+        //blackjack
+        if(player.isWinner()){
+            // player is paid 3:2 if dealer doesn't have blackjack
+            // and 1:1 if dealer also has blackjack
+            gain += (dealer.isWinner()) ? bank.get(player) * 2 : bank.get(player) * 2.5;    
+
+        }
+        //better hand thna the dealer's
+        else if( !dealer.isValid() || dealer.valueOf() < player.valueOf()){
+            // return;
+        }
+
+        return gain;
 
     }
+
+
 }

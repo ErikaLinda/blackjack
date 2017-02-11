@@ -7,6 +7,7 @@ import impl.BlackJackHand;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Scanner;
+import java.util.Collections;
 
 
 public class BlackJackPlayer implements Player{
@@ -33,14 +34,16 @@ public class BlackJackPlayer implements Player{
     }
 
 	public int compareTo(Player other){
-		if (this.getMoney() > other.getMoney()){
-			return 1;
-		}else if (this.getMoney() < other.getMoney()){
-			return -1;
-		}
-		else{
-			return 0;
-		}
+        return ( (Integer) other.getHand().valueOf() ).compareTo((Integer)this.getHand().valueOf());
+
+		// if (this.getHand().valueOf() > other.getHand().valueOf()){
+		// 	return 1;
+		// }else if (this.getHand().valueOf() < other.getHand().valueOf()){
+		// 	return -1;
+		// }
+		// else{
+		// 	return 0;
+		// }
     }
 
 	 /*
@@ -54,14 +57,15 @@ public class BlackJackPlayer implements Player{
      * Return the current hand to the caller
      */
     public Hand getHand(){
-    	return playersHand;
+    	return this.playersHand;
     }
 
     /*
      * Place a wager
      */
     public double wager(){
-    	double bet = wallet * 0.3;
+        //player places 30% of the wallet or everything if wallet has less than 10
+    	double bet = (wallet > 10) ? wallet * 0.3 : wallet;
     	wallet -= bet;
     	return bet;
     }
@@ -77,14 +81,14 @@ public class BlackJackPlayer implements Player{
      * Return the amount of money currently available to the player
      */
     public double getMoney(){
-    	return wallet;
+    	return this.wallet;
     }
 
     /*
      * Return the name of the player
      */
     public String getName(){
-    	return name;
+    	return this.name;
     }
 
     /*

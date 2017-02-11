@@ -36,7 +36,6 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
         Iterator<Card> it = deck.iterator();
         Card tmp = it.next();
         player.receive(tmp);
-        // System.out.println("BJD: Cards have not been dealt.");
         it.remove();
 	}
 

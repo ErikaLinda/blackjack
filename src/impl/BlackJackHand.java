@@ -20,9 +20,8 @@ public class BlackJackHand extends Hand{
 
 
 	public int compareTo(Hand other) {
-		int value = this.valueOf();
+        return ( (Integer) this.valueOf() ).compareTo((Integer)other.valueOf());
 
-        return (value == 0) ? value : other.valueOf();
     }
 
 	  /*
@@ -45,7 +44,18 @@ public class BlackJackHand extends Hand{
      * The value of the hand, as an integer.
      */
     public int valueOf(){
-    	int handValue = 0;
+        int handValue = 0;
+
+        for(Card c : cards){
+            handValue += c.getValue().getValue();
+        }
+
+        // Iterator<Card> it = cards.iterator();
+        // while(it.hasNext()){
+        //     handValue += it.next().getValue().getValue();
+        // }
+        
+    	// System.out.printf("Hand value: %d.%n", handValue);
     	return handValue;
     }
 }
