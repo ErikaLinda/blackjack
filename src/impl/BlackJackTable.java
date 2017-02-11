@@ -79,7 +79,6 @@ public class BlackJackTable extends Table{
      */
     protected void dealTable(){
         //deal two cards to each player
-        
         Iterator<Player> it = players.iterator();
         while(it.hasNext()){
             Player tmp = it.next();
@@ -112,6 +111,20 @@ public class BlackJackTable extends Table{
      * should have a turn as well!
      */
     protected void playerTurns(){
+        // players take turns
+        Iterator<Player> it = players.iterator();
+        while(it.hasNext()){
+            Player player = it.next();
+            if(player.requestCard()){
+                dealer.dealCard(player);
+                System.out.println("Someone added extra card.");
+            }
+        }
+        // dealer takes turn
+        if( ((Player)dealer).requestCard() ){
+            dealer.dealCard((Player)dealer);
+        }
+        System.out.println("Players took turns.");
 
     }
 
