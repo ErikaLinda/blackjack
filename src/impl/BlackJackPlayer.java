@@ -3,6 +3,8 @@ import api.Player;
 import api.Hand;
 import api.Card;
 
+import impl.BlackJackHand;
+
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Scanner;
 
@@ -10,23 +12,25 @@ import java.util.Scanner;
 public class BlackJackPlayer implements Player{
 	private Hand playersHand = new BlackJackHand();
     private String name;
-
+    //value of hand at which player stops requesting cards
+    private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
+    //initial available money
+    private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
     
-
+    //constructor
     public BlackJackPlayer(){
         // prompt user to enter their name
-        System.out.println("Enter your name: ");
-        Scanner scanner = new Scanner(System.in);
-        name = scanner.next();
-        System.out.println(String.format("%s, you are in the game", name ));
+        // this.askName();
     }
     
 
-	
-	//value of hand at which player stops requesting cards
-	private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
-	//initial available money
-	private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
+    // get user's name
+    private void askName(){
+        System.out.println("Enter your name: ");
+        Scanner scanner = new Scanner(System.in);
+        this.name = scanner.next();
+        System.out.println(String.format("%s, you are in the game", name ));
+    }
 
 	public int compareTo(Player other){
 		if (this.getMoney() > other.getMoney()){

@@ -1,7 +1,23 @@
 package impl;
 import api.Hand;
+import api.Card;
+
+import java.util.*;
+import java.util.Collections;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
+// import java.util.ArraySet;
+import java.lang.Comparable;
 
 public class BlackJackHand extends Hand{
+
+    
+
+    public BlackJackHand() {
+        this.cards = new HashSet<Card>();
+    }
+
 
 	public int compareTo(Hand other) {
 		int value = this.valueOf();

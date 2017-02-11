@@ -4,10 +4,11 @@ import api.Player;
 import api.Hand;
 import api.Card;
 import impl.BlackJackPlayer;
+import impl.BlackJackHand;
 
 import java.util.*;
 import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
+// import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,23 +19,24 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
     private static List<Card> deck = new ArrayList<>();
 
     public BlackJackDealer() {
-        int i = 0;
         for (Card.Suit suit : Card.Suit.values()) {
             for (Card.Value value : Card.Value.values()) {
-
                 // System.out.printf("Value: %s  suit: %s%n", value, suit);
                 Card tmp = new Card(value, suit);
                 deck.add(tmp);
             }
         }
 
+        this.shuffle();
     }
 
 
     
 	public void dealCard(Player player) {
         Iterator<Card> it = deck.iterator();
-        player.receive(it.next());
+        Card tmp = it.next();
+        player.receive(tmp);
+        // System.out.println("BJD: Cards have not been dealt.");
         it.remove();
 	}
 
@@ -49,7 +51,7 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
 
     public Hand getHand(){
         //making a call to dealer as a BlackJackPlayer and its getHand() method
-     	return this.getHand(); 
+     	return super.getHand(); 
     }
 
     /*
