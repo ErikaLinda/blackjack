@@ -39,10 +39,17 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
 	}
 
     public void collectCards(Player player) {
+        Hand hand = player.getHand();
+        Iterator<Card> itr = hand.getCards().iterator();
+        while(itr.hasNext()){
+            deck.add(itr.next());
+            itr.remove();
+        }
     }
 
     public Hand getHand(){
-     	return this.getHand();
+        //making a call to dealer as a BlackJackPlayer and its getHand() method
+     	return this.getHand(); 
     }
 
     /*
@@ -51,7 +58,7 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
     public void shuffle(){
         Collections.shuffle(deck);
 
-        Iterator<Card> itr = deck.iterator();
+        // Iterator<Card> itr = deck.iterator();
         
         // Card tmp;
         // for(int i =0; i<52; i++){

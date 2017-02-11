@@ -49,7 +49,12 @@ public class BlackJackTable extends Table{
      * Jack, that also means the dealer themself!
      */
     protected void collectCards(){
+        Iterator<Player> it = players.iterator();
+        while(it.hasNext()){
+            dealer.collectCards(it.next());
+        }
 
+        dealer.collectCards((Player)dealer);
     }
 
     /*
@@ -57,6 +62,7 @@ public class BlackJackTable extends Table{
      * Jack, that also means the dealer themself!
      */
     protected void dealTable(){
+        //deal two cards to each player
         Iterator<Player> it = players.iterator();
         while(it.hasNext()){
             Player tmp = it.next();
@@ -64,6 +70,7 @@ public class BlackJackTable extends Table{
             dealer.dealCard(tmp);
         }
 
+        //deal two cards to dealer
         dealer.dealCard((Player)dealer);
         dealer.dealCard((Player)dealer);
 
