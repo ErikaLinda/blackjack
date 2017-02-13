@@ -4,41 +4,36 @@ import api.Player;
 import api.Hand;
 import api.Card;
 import impl.BlackJackPlayer;
-//import impl.BlackJackHand;
 
 import java.util.*;
 import java.util.Collections;
-// import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class BlackJackDealer extends BlackJackPlayer implements Dealer{
     
-
-    //initialize the deck  
+    //initialize the dealer's deck  
     private static List<Card> deck = new ArrayList<>();
 
+    //constructor
     public BlackJackDealer() {
-        for (Card.Suit suit : Card.Suit.values()) {
-            for (Card.Value value : Card.Value.values()) {
-                // System.out.printf("Value: %s  suit: %s%n", value, suit);
-                Card tmp = new Card(value, suit);
-                deck.add(tmp);
-            }
-        }
-
-        this.shuffle();
+        this.addDeck();
     }
 
-
-    
+    // remove cards from the deck and add to the player
 	public void dealCard(Player player) {
+        //add deck whenever dealer runs out of cards
+        if(deck.isEmpty()){
+            this.addDeck();
+            this.shuffle();
+        }
         Iterator<Card> it = deck.iterator();
         Card tmp = it.next();
         player.receive(tmp);
         it.remove();
 	}
 
+    // remove cards from the palyer and add to the deck
     public void collectCards(Player player) {
         Hand hand = player.getHand();
         Iterator<Card> itr = hand.getCards().iterator();
@@ -58,16 +53,18 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
      */
     public void shuffle(){
         Collections.shuffle(deck);
+    }
 
-        // Iterator<Card> itr = deck.iterator();
-        
-        // Card tmp;
-        // for(int i =0; i<52; i++){
-        //     tmp = itr.next();
-        //     System.out.printf("ValueShuffled: %s  suit: %s%n", tmp.getValue(), tmp.getSuit());
-        // }
-        
-
+    /*
+     * Adds a full deck of 52 cards to the dealers "deck" variable.
+     */
+    private void addDeck(){
+        for (Card.Suit suit : Card.Suit.values()) {
+            for (Card.Value value : Card.Value.values()) {
+                Card card = new Card(value, suit);
+                deck.add(card);
+            }
+        }
     }
 
 

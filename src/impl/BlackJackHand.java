@@ -2,18 +2,11 @@ package impl;
 import api.Hand;
 import api.Card;
 
-import java.util.*;
-import java.util.Collections;
-import java.util.Set;
 import java.util.HashSet;
-import java.util.Iterator;
-// import java.util.ArraySet;
-import java.lang.Comparable;
 
 public class BlackJackHand extends Hand{
 
-    
-
+    //constructor
     public BlackJackHand() {
         this.cards = new HashSet<Card>();
     }
@@ -45,17 +38,11 @@ public class BlackJackHand extends Hand{
      */
     public int valueOf(){
         int handValue = 0;
-
+        
         for(Card c : cards){
             handValue += c.getValue().getValue();
         }
 
-        // Iterator<Card> it = cards.iterator();
-        // while(it.hasNext()){
-        //     handValue += it.next().getValue().getValue();
-        // }
-        
-    	// System.out.printf("Hand value: %d.%n", handValue);
     	return handValue;
     }
 }

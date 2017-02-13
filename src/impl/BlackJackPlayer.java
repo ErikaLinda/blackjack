@@ -13,18 +13,18 @@ import java.util.Collections;
 public class BlackJackPlayer implements Player{
 	private Hand playersHand = new BlackJackHand();
     private String name;
-    //value of hand at which player stops requesting cards
+    //value of hand at which player stops requesting additional cards
     private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
     //initial available money
     private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
     
 
-    //automatic constructor for dealer's player
+    //constructor for dealer's player
     public BlackJackPlayer(){
         this.name = "Delaer";
     }
 
-    //automatic constructor
+    //bot constructor
     public BlackJackPlayer(int num){
         this.name = "Player " + num;
     }
@@ -41,20 +41,11 @@ public class BlackJackPlayer implements Player{
         System.out.println("Enter your name: ");
         Scanner scanner = new Scanner(System.in);
         this.name = scanner.next();
-        System.out.println(String.format("%s, you are in the game", name ));
+        // System.out.println(String.format("%s, you are in the game", name ));
     }
 
 	public int compareTo(Player other){
         return ( (Integer) other.getHand().valueOf() ).compareTo((Integer)this.getHand().valueOf());
-
-		// if (this.getHand().valueOf() > other.getHand().valueOf()){
-		// 	return 1;
-		// }else if (this.getHand().valueOf() < other.getHand().valueOf()){
-		// 	return -1;
-		// }
-		// else{
-		// 	return 0;
-		// }
     }
 
 	 /*
