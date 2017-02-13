@@ -23,10 +23,11 @@ public class BlackJackTable extends Table{
         this.players =  new ArrayList<>();
         this.dealer = new BlackJackDealer();
 
-        System.out.printf("Number of players %d%n", numOfPlayers);
+        System.out.printf("Number of players %d.%n", numOfPlayers);
 
         for( int i = 0; i < numOfPlayers; i++){
-            players.add ( new BlackJackPlayer() );
+            players.add ( new BlackJackPlayer(i) ); //construct bot players
+            // players.add ( new BlackJackPlayer(true) ); //users enter names
             System.out.printf("Player i: %d added.%n", i);
         }
 
@@ -42,7 +43,7 @@ public class BlackJackTable extends Table{
         while(it.hasNext()){
             Player tmp = it.next();
             double money= tmp.getMoney();
-            System.out.printf("Players money: %f%n.", money);
+            System.out.printf("Players money: %f.%n", money);
             if(money < 1){
                 it.remove();
                 System.out.println("Player removed.");
@@ -50,16 +51,30 @@ public class BlackJackTable extends Table{
         }
 
 		return (players.isEmpty()) ? true : false;  //check players bets
-        // return false;
 	}
 
     /*
      * A string representation of the table
      */
     public String toString(){
-    	String s = " ";
-    	return s;
+        String nl = System.getProperty("line.separator");
+        int playersLeft = players.size();
+        String table = "";
 
+        if(playersLeft == 1){
+            table += "There is " + playersLeft + " player at the table with the following money: ";
+            for(Player p : players){
+                table += nl + p.getName() + " : " + p.getMoney();
+            }
+        }else if (playersLeft > 1){
+            table += "There are " + playersLeft + " players at the table with the following money: ";
+            for(Player p : players){
+                table += nl + p.getName() + " : " + p.getMoney();
+            }
+        }
+        
+    	return table += ".";
+ 
     }
 
     /*
@@ -162,46 +177,70 @@ public class BlackJackTable extends Table{
      * table.
      */
     protected void playerEvaluations(){
-        // for(Player p : players){
-        //     System.out.printf("NoSort Player: %s, hand: %d.%n", p.getName(), p.getHand().valueOf());
-        // }
-
-        //check case for multiple winners
+        boolean flag = true;
+        List<Player> winners = new ArrayList<>();
+        Hand dealersHand = dealer.getHand();
 
         //sort players by their hands in descending order
         Collections.sort(players);
         
+        System.out.printf("Dealer's final hand: %d.%n", dealersHand.valueOf());
         for(Player p : players){
-            System.out.printf("Player: %s, hand: %d.%n", p.getName(), p.getHand().valueOf());
+            System.out.printf("%s's final hand: %d.%n", p.getName(), p.getHand().valueOf());
         }
 
-        Hand dealersHand = dealer.getHand();
-        System.out.printf("Dealers final hand: %d.%n", dealersHand.valueOf());
+        // find the highest valid hand(s)
+        Iterator<Player> it = players.iterator();
+        while(it.hasNext() && flag){
+            Player p = it.next();
+            if(p.getHand().isValid()){
+                winners.add(p);
 
-        for(Player p : players){
-            Hand h = p.getHand();
-            if(h.isValid()){
-                System.out.printf("Player: %s bet: %f, recived: %f.%n", p.getName(), bank.get(p), this.wonAmount(h, dealersHand));
-                p.payOut(this.wonAmount(h, dealersHand));
-                return;
+                //check for multiple winners
+                if(it.hasNext()){
+                    int winningValue = p.getHand().valueOf();
+                    Player tmp = it.next();
+                    while( winningValue == tmp.getHand().valueOf() ){
+                        winners.add(tmp);
+                        if(it.hasNext()){ 
+                            tmp = it.next();
+                        }else{
+                            winningValue = -1;
+                        }
+                    }
+                }
+                flag = false;    
             }
         }
+
+        // determine how much the player(s) won and add it to thei wallet
+        for(Player w : winners){
+            double winAmount = this.wonAmount(w, dealersHand);
+            System.out.printf("Player %s won %f.%n", w.getName(), winAmount);
+            w.payOut(winAmount);
+        }
+        
         return;
     }
 
-    private double wonAmount(Hand player, Hand dealer){
+    private double wonAmount(Player player, Hand dealer){
         double gain = 0;
+        Hand hand = player.getHand();
 
         //blackjack
-        if(player.isWinner()){
+        if(hand.isWinner()){
             // player is paid 3:2 if dealer doesn't have blackjack
             // and 1:1 if dealer also has blackjack
             gain += (dealer.isWinner()) ? bank.get(player) * 2 : bank.get(player) * 2.5;    
 
         }
-        //better hand thna the dealer's
-        else if( !dealer.isValid() || dealer.valueOf() < player.valueOf()){
-            // return;
+        //better hand than the dealer's
+        else if( !dealer.isValid() || dealer.valueOf() < hand.valueOf()){
+            gain += bank.get(player) * 2; 
+        }
+        //if dealer and player have the same hand
+        else if(dealer.valueOf() == hand.valueOf()){
+            gain += bank.get(player); 
         }
 
         return gain;

@@ -18,11 +18,22 @@ public class BlackJackPlayer implements Player{
     //initial available money
     private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
     
-    //constructor
+
+    //automatic constructor for dealer's player
     public BlackJackPlayer(){
-        // prompt user to enter their name
-        // this.askName();
+        this.name = "Delaer";
     }
+
+    //automatic constructor
+    public BlackJackPlayer(int num){
+        this.name = "Player " + num;
+    }
+
+    //constructor with name prompt
+    public BlackJackPlayer(boolean writeName){
+        this.askName();
+    }
+
     
 
     // get user's name
