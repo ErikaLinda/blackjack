@@ -51,7 +51,7 @@ one must add it to the 'betStr' list in the 'BlackJackTable', then  it will be a
 when they are initialized. All the betting strategies are distributed equally between the players 
 at the table. 
 
-The process is exactlly the same for adding a new hitting startegy with the respective interface
+The process is exactlly the same for adding a new hitting strategy with the respective interface
 and list in in the 'BlackJackTable'.
 
 ## Possible improvements
@@ -61,3 +61,4 @@ alternate between different strategies throughout the game rather than sticking 
 
 Also game could be more interactive if at each round player would be asked form the command line 
 to choose which hit and bet strategy to adopt.
+
