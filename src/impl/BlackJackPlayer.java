@@ -2,6 +2,8 @@ package impl;
 import api.Player;
 import api.Hand;
 import api.Card;
+import api.BettingStrategy;
+import api.HittingStrategy;
 
 import impl.BlackJackHand;
 
@@ -17,11 +19,16 @@ public class BlackJackPlayer implements Player{
     private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
     //initial available money
     private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
+
+    //betting strategy
+    private BettingStrategy bettingStrategy;
+    //hitting strategy
+    private HittingStrategy hittingStrategy;
     
 
     //constructor for dealer's player
     public BlackJackPlayer(){
-        this.name = "Delaer";
+        this.name = "Dealer";
     }
 
     //bot constructor

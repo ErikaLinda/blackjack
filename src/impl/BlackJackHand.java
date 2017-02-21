@@ -26,11 +26,11 @@ public class BlackJackHand extends Hand{
     public boolean isValid(){
     	int curValue = this.valueOf();
     	
-    	return (curValue < 22 && curValue > 0) ? true : false;
+    	return (curValue < 22 && curValue > 0);
     }
 
     public boolean isWinner(){
-    	return (this.valueOf() == 21) ? true : false;
+    	return (this.valueOf() == 21);
     }
 
     /*
