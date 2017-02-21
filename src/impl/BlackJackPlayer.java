@@ -18,12 +18,12 @@ public class BlackJackPlayer implements Player{
     //value of hand at which player stops requesting additional cards
     private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
     //initial available money
-    private double wallet = ThreadLocalRandom.current().nextDouble(100, 2000);
+    private double wallet = ThreadLocalRandom.current().nextDouble(200, 2000);
 
     //betting strategy
-    private BettingStrategy bettingStrategy;
+    BettingStrategy bettingStrategy;
     //hitting strategy
-    private HittingStrategy hittingStrategy;
+    HittingStrategy hittingStrategy;
     
 
     //constructor for dealer's player
@@ -32,13 +32,15 @@ public class BlackJackPlayer implements Player{
     }
 
     //bot constructor
-    public BlackJackPlayer(int num){
+    public BlackJackPlayer(int num, BettingStrategy b){
         this.name = "Player " + num;
+        this.bettingStrategy = b;
     }
 
     //constructor with name prompt
-    public BlackJackPlayer(boolean writeName){
+    public BlackJackPlayer(boolean writeName, BettingStrategy b){
         this.askName();
+        this.bettingStrategy = b;
     }
 
     
@@ -73,9 +75,8 @@ public class BlackJackPlayer implements Player{
      * Place a wager
      */
     public double wager(){
-        //player places 30% of the wallet or everything if wallet has less than 10
-    	double bet = (wallet > 10) ? wallet * 0.3 : wallet;
-    	wallet -= bet;
+        double bet = bettingStrategy.bet(wallet);
+        wallet -= bet;
     	return bet;
     }
 
@@ -106,6 +107,6 @@ public class BlackJackPlayer implements Player{
      * indicates they would not.
      */
     public boolean requestCard(){
-    	return (playersHand.valueOf() < threshold) ? true : false;
+    	return (playersHand.valueOf() < threshold);
     }
 }

@@ -1,5 +1,5 @@
 package api;
 
 public interface BettingStrategy{
-	public double bet();
+	public double bet(double wallet);
 }

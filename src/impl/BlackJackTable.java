@@ -16,7 +16,12 @@ package impl;
 import api.Table;
 import api.Player;
 import api.Hand;
+import api.BettingStrategy;
+import api.HittingStrategy;
+
 import impl.BlackJackDealer;
+import impl.ProportionalBet;
+import impl.HighBet;
 
 import java.util.*;
 import java.util.ArrayList;
@@ -24,7 +29,11 @@ import java.util.Iterator;
 import java.util.HashMap;
 
 public class BlackJackTable extends Table{
- 
+    private List<BettingStrategy> betStr = new ArrayList<BettingStrategy>() {{
+           add(new ProportionalBet());
+           add(new HighBet());
+        }};
+
     // constructor
 	public BlackJackTable(int numOfPlayers){
         
@@ -34,10 +43,10 @@ public class BlackJackTable extends Table{
 
         for( int i = 0; i < numOfPlayers; i++){
             //construct bot players
-            players.add ( new BlackJackPlayer(i) );
+            players.add ( new BlackJackPlayer(i, betStr.get( (Integer) (i % betStr.size()) )));
 
-            //users enter player names
-            // players.add ( new BlackJackPlayer(true) ); 
+            // users enter player names
+            // players.add ( new BlackJackPlayer(true, betStr.get( (Integer) (i % betStr.size()) )) ); 
         }
 
         System.out.printf("Number of players %d.%n", numOfPlayers);
