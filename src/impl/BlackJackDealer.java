@@ -4,6 +4,7 @@ import api.Player;
 import api.Hand;
 import api.Card;
 import impl.BlackJackPlayer;
+import impl.DealersHit;
 
 import java.util.*;
 import java.util.Collections;
@@ -18,6 +19,7 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
     //constructor
     public BlackJackDealer() {
         this.addDeck();
+        super.hittingStrategy = new DealersHit();
     }
 
     // remove cards from the deck and add to the player

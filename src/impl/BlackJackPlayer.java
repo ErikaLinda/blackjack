@@ -15,14 +15,12 @@ import java.util.Collections;
 public class BlackJackPlayer implements Player{
 	private Hand playersHand = new BlackJackHand();
     private String name;
-    //value of hand at which player stops requesting additional cards
-    private int threshold = ThreadLocalRandom.current().nextInt(13, 18);
+
     //initial available money
     private double wallet = ThreadLocalRandom.current().nextDouble(200, 2000);
 
-    //betting strategy
+    //betting and hitting strategy
     BettingStrategy bettingStrategy;
-    //hitting strategy
     HittingStrategy hittingStrategy;
     
 
@@ -32,18 +30,19 @@ public class BlackJackPlayer implements Player{
     }
 
     //bot constructor
-    public BlackJackPlayer(int num, BettingStrategy b){
+    public BlackJackPlayer(int num, BettingStrategy b, HittingStrategy h){
         this.name = "Player " + num;
         this.bettingStrategy = b;
+        this.hittingStrategy = h;
     }
 
     //constructor with name prompt
-    public BlackJackPlayer(boolean writeName, BettingStrategy b){
+    public BlackJackPlayer(boolean writeName, BettingStrategy b, HittingStrategy h){
         this.askName();
         this.bettingStrategy = b;
+        this.hittingStrategy = h;
     }
 
-    
 
     // get user's name
     private void askName(){
@@ -68,7 +67,7 @@ public class BlackJackPlayer implements Player{
      * Return the current hand to the caller
      */
     public Hand getHand(){
-    	return this.playersHand;
+    	return playersHand;
     }
 
     /*
@@ -91,14 +90,14 @@ public class BlackJackPlayer implements Player{
      * Return the amount of money currently available to the player
      */
     public double getMoney(){
-    	return this.wallet;
+    	return wallet;
     }
 
     /*
      * Return the name of the player
      */
     public String getName(){
-    	return this.name;
+    	return name;
     }
 
     /*
@@ -107,6 +106,6 @@ public class BlackJackPlayer implements Player{
      * indicates they would not.
      */
     public boolean requestCard(){
-    	return (playersHand.valueOf() < threshold);
+        return hittingStrategy.hit(playersHand);
     }
 }

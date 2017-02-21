@@ -22,6 +22,9 @@ import api.HittingStrategy;
 import impl.BlackJackDealer;
 import impl.ProportionalBet;
 import impl.HighBet;
+import impl.DealersHit;
+import impl.CautiousHit;
+import impl.OptimisticHit;
 
 import java.util.*;
 import java.util.ArrayList;
@@ -29,10 +32,18 @@ import java.util.Iterator;
 import java.util.HashMap;
 
 public class BlackJackTable extends Table{
+    // list of all available betting strategies
     private List<BettingStrategy> betStr = new ArrayList<BettingStrategy>() {{
-           add(new ProportionalBet());
-           add(new HighBet());
-        }};
+        add(new ProportionalBet());
+        add(new HighBet());
+    }};
+
+    // list of all available hitting strategies
+    private List<HittingStrategy> hitStr = new ArrayList<HittingStrategy>() {{
+        add(new DealersHit());
+        add(new CautiousHit());
+        add(new OptimisticHit());
+    }};
 
     // constructor
 	public BlackJackTable(int numOfPlayers){
@@ -41,12 +52,16 @@ public class BlackJackTable extends Table{
         this.dealer = new BlackJackDealer();
         this.wagers = new HashMap<>();
 
+
         for( int i = 0; i < numOfPlayers; i++){
-            //construct bot players
-            players.add ( new BlackJackPlayer(i, betStr.get( (Integer) (i % betStr.size()) )));
+            BettingStrategy bs = betStr.get( (Integer) (i % betStr.size()) );
+            HittingStrategy hs = hitStr.get( (Integer) (i % hitStr.size()) );
+
+            //construct bot players with betting and hitting strategies 
+            players.add ( new BlackJackPlayer(i, bs, hs));
 
             // users enter player names
-            // players.add ( new BlackJackPlayer(true, betStr.get( (Integer) (i % betStr.size()) )) ); 
+            // players.add ( new BlackJackPlayer(true, bs, hs) ); 
         }
 
         System.out.printf("Number of players %d.%n", numOfPlayers);
