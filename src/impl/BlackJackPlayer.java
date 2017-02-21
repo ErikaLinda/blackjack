@@ -9,7 +9,6 @@ import impl.BlackJackHand;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Scanner;
-import java.util.Collections;
 
 
 public class BlackJackPlayer implements Player{
@@ -20,27 +19,27 @@ public class BlackJackPlayer implements Player{
     private double wallet = ThreadLocalRandom.current().nextDouble(200, 2000);
 
     //betting and hitting strategy
-    BettingStrategy bettingStrategy;
-    HittingStrategy hittingStrategy;
+    protected BettingStrategy bettingStrategy;
+    protected HittingStrategy hittingStrategy;
     
 
     //constructor for dealer's player
     public BlackJackPlayer(){
-        this.name = "Dealer";
+        name = "Dealer";
     }
 
     //bot constructor
     public BlackJackPlayer(int num, BettingStrategy b, HittingStrategy h){
-        this.name = "Player " + num;
-        this.bettingStrategy = b;
-        this.hittingStrategy = h;
+        name = "Player " + num;
+        bettingStrategy = b;
+        hittingStrategy = h;
     }
 
     //constructor with name prompt
     public BlackJackPlayer(boolean writeName, BettingStrategy b, HittingStrategy h){
         this.askName();
-        this.bettingStrategy = b;
-        this.hittingStrategy = h;
+        bettingStrategy = b;
+        hittingStrategy = h;
     }
 
 
@@ -48,12 +47,12 @@ public class BlackJackPlayer implements Player{
     private void askName(){
         System.out.println("Enter your name: ");
         Scanner scanner = new Scanner(System.in);
-        this.name = scanner.next();
+        name = scanner.next();
         // System.out.println(String.format("%s, you are in the game", name ));
     }
 
 	public int compareTo(Player other){
-        return ( (Integer) other.getHand().valueOf() ).compareTo((Integer)this.getHand().valueOf());
+        return ( (Integer) other.getHand().valueOf() ).compareTo( (Integer) this.getHand().valueOf() );
     }
 
 	 /*

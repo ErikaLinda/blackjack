@@ -2,17 +2,14 @@
 Erika Linda Zogla
 Software Engineering
 Prof. Jerome White
-February 13, 2016
+February 21, 2016
 
-Blackjack
-
-This implementation of blackjack can run for any number of players.
-It can also run with automatically generated player names or with 
-names entered by the user in the command line (see BlackJackTable constructor below).
+Blackjack with Strategy Pattern
 
 ********************/
 
 package impl;
+
 import api.Table;
 import api.Player;
 import api.Hand;
@@ -54,6 +51,7 @@ public class BlackJackTable extends Table{
 
 
         for( int i = 0; i < numOfPlayers; i++){
+            // 
             BettingStrategy bs = betStr.get( (Integer) (i % betStr.size()) );
             HittingStrategy hs = hitStr.get( (Integer) (i % hitStr.size()) );
 
@@ -90,23 +88,23 @@ public class BlackJackTable extends Table{
      * A string representation of the table
      */
     public String toString(){
-        String nl = System.getProperty("line.separator");
+        String newline = System.getProperty("line.separator");
         int playersLeft = players.size();
         String table = "";
 
         if(playersLeft == 1){
             table += "There is " + playersLeft + " player at the table with the following money: ";
             for(Player p : players){
-                table += nl + p.getName() + ": " + p.getMoney();
+                table += newline + p.getName() + ": " + p.getMoney();
             }
         }else if (playersLeft > 1){
             table += "There are " + playersLeft + " players at the table with the following money: ";
             for(Player p : players){
-                table += nl + p.getName() + ": " + p.getMoney();
+                table += newline + p.getName() + ": " + p.getMoney();
             }
         }
         
-    	return table += "." + nl;
+    	return table += "." + newline;
  
     }
 
@@ -209,11 +207,12 @@ public class BlackJackTable extends Table{
      * Determines which players have the highest hands that is below 22. 
      */
     private List<Player> findBestHands(List<Player> players){
-        boolean flag = true;
+        boolean found = false;
         Iterator<Player> it = players.iterator();
         List<Player> winners = new ArrayList<>();
 
-        while(it.hasNext() && flag){
+        while(it.hasNext() && !found){
+            // find the highest valid hand
             Player p = it.next();
             if(p.getHand().isValid()){
                 winners.add(p);
@@ -231,7 +230,7 @@ public class BlackJackTable extends Table{
                         }
                     }
                 }
-                flag = false;    
+                found = true;    
             }
         }
         return winners;
