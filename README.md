@@ -1,6 +1,29 @@
-# Blackjack
+# Blackjack with Strategy Pattern
 
-## Introduction
+## How was the strategy pattern used to build on the initial BlackJack implementation?
+
+Relying on the design principle that says "Encapsulate what varies", I isolated two changing
+behaviours - betting and hitting. Note that both of these behaviours change from player to player 
+as each might wish to use a different game strategy. Thus, betting and hitting were taken out of the
+BlackjackPlayer class and turned into two interfaces HittingStrategy and BettingStrategy.
+Each interface lists a single method hit(Hand hand) and bet(double wallet) respectively.
+I implemented three HittingStrategies (DealersHit, OptimisticHit, and CautiousHit) as well
+as two BettingStrategies (ProportionalBet and HighBet).
+
+
+## What was changed? 
+
+## How to add a new betting or hitting strategy to the package?
+
+
+
+
+
+
+
+
+
+
 
 The objective of this assignment is to build multi-player Blackjack by
 implementing several card-related interfaces, including some abstract
