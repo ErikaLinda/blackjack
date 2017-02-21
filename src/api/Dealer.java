@@ -7,8 +7,8 @@ import java.util.List;
  */
 public interface Dealer {
     /*
-     * Deal a single card to a player, and collect all cards from
-     * a player, respectively. In both cases, card instances should be
+     * Deal a single card to a player, and collect all cards from a
+     * player, respectively. In both cases, card instances should be
      * preserved: a card should be explicity removed from one location
      * (a deck or a hand) and added to the other.
      */

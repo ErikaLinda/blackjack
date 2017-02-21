@@ -66,8 +66,4 @@ public class BlackJackDealer extends BlackJackPlayer implements Dealer{
             }
         }
     }
-
-
-
-    
 }
