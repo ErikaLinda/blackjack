@@ -1,3 +1,14 @@
+This is a Blackjack bot I implemented as on of the first weekly assignments for Software Engineering course taught by Prof. Jerome White in Spring 2016 at New York University Abu Dhabi. The implementation is done in Java and runs using Ant library. To launch the game with 3 players type
+
+```bash
+$>ant play -Dplayers=3
+```
+
+in the command prompt. The number of players can be chosen freely. The game will run automatically and only display the results.
+
+Below is the original documentation describing the addition of betting and hitting strategies to the previous version of Blackjack.
+
+
 # Blackjack with Strategy Pattern
 
 ## How was the strategy pattern used?
